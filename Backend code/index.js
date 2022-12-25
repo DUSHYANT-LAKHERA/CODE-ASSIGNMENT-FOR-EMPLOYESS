@@ -11,12 +11,7 @@ app.use(cors())
 // const urlformongo= "mongodb+srv://Dushyantmonodb:Dushyant123@cluster0.c8wzxwn.mongodb.net/test"
 
 
-mongoose.connect('mongodb+srv://Dushyantmonodb:Dushyant123@cluster0.c8wzxwn.mongodb.net/projectforemployees', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}, () => {
-    console.log("DB connected")
-});
+"DB key"
 
 
 
