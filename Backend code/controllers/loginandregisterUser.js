@@ -1,35 +1,11 @@
 const User = require("../modals/User");
 const Employees = require("../modals/EmployesData");
 
-//Adding New User
-
-exports.UserLogin = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(404).json("Please fill the Details");
-  }
-  try {
-    User.findOne({ email: email }, (err, user) => {
-      if (user) {
-        if (password === user.password) {
-
-          res.send({ message: "Login Successfull", user: user })
-        } else {
-          res.send({ message: "Password not match" })
-        }
-      } else {
-        res.send({ message: "User not Registered" })
-      }
-    })
-  } catch (error) {
-    res.status(422).json(error);
-  }
-};
 
 
 
-// //GET ALL DATA
+//USER REGISTER
+
 exports.UserRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body
@@ -63,6 +39,35 @@ exports.UserRegister = async (req, res) => {
   }
 };
 
+
+
+
+// User login 
+exports.UserLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(404).json("Please fill the Details");
+  }
+  try {
+    User.findOne({ email: email }, (err, user) => {
+      if (user) {
+        if (password === user.password) {
+
+          res.send({ message: "Login Successfull", user: user })
+        } else {
+          res.send({ message: "Password not match" })
+        }
+      } else {
+        res.send({ message: "User not Registered" })
+      }
+    })
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+//POST ADD  NEW EMPLOYEE 
 exports.CreateEmployee = (req, res) => {
   console.log(req.body,"datyatataaudgsyfsdifugsdiufh")
   try {
@@ -98,7 +103,7 @@ exports.CreateEmployee = (req, res) => {
   }
 };
 
-
+//GET ALL EMPLOYEES
 exports.getAllEmployeesData = async (req, res) => {
   console.log(res.body)
   try {
@@ -113,7 +118,7 @@ exports.getAllEmployeesData = async (req, res) => {
   }
 };
 
-
+// GET SINGLE EMPLOYEES
 exports.getSingleEmployeeData = async (req, res) => {
   const { id } = req.params;
   try {
@@ -126,50 +131,3 @@ exports.getSingleEmployeeData = async (req, res) => {
   }
 };
 
-// public async createMainCategory(catData: any) {
-//   console.log(catData);
-//   try {
-//     const data: any = await MainCategory.create(catData);
-//     console.log('sdfsfgs');
-//     return data;
-//   } catch (error) {
-//     return { data: [], message: error }
-//   }
-// }
-
-
-// //GET individual user
-
-
-
-// //update user data
-// exports.updateById = async (req, res) => {
-//   const user = req.body; //put api se dataObj
-//   const editUser = new User(user); //chck model valid obj
-//   try {
-//     await User.updateOne({ _id: req.params.id }, editUser);
-//     res.json(editUser);
-//   } catch (error) {
-//     res.status(422).json(error);
-//   }
-// };
-
-// exports.deleteById = async (req, res) => {
-//   const { id } = req.params;
-//   console.log(req.params);
-//   try {
-//     const deleteuser = await User.deleteOne({ _id: id });
-//     res.json(deleteuser);
-//   } catch (error) {
-//     res.status(422).json(error);
-//   }
-// };
-
-// exports.searchUser = async (req, res) => {
-//   console.log(req.params.key);
-
-//   const data = await User.find({
-//     $or: [{ name: { $regex: req.params.key } }],
-//   });
-//   res.send(data);
-// };

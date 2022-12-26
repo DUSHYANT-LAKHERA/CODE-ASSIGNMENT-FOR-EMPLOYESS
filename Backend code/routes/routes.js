@@ -12,12 +12,5 @@ router.get("/getAllEmployees",getAllEmployeesData)
 
 router.get("/getSingleEmployee/:id",getSingleEmployeeData)
 
-// router.post("/insertUser",insertUser)
-
-
-// router.patch("/updateuser/:id",updateById) //edit user
-
-// router.delete("/deleteuser/:id",deleteById)
-// router.get("/s/:key",searchUser)
 
 module.exports=router;
