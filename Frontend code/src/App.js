@@ -5,6 +5,7 @@ import Homepage from "./components_For_L_R/homepage/homepage"
 import Register from "./components_For_L_R/register_Component/register"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from 'react';
+import EmployeesList from './components_For_L_R/employeesData/employeesList';
 
 function App() {
 
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/EmployeesList">
+            <EmployeesList />
           </Route>
         </Switch>
       </Router>
