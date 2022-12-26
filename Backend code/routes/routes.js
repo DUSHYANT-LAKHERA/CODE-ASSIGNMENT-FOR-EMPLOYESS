@@ -1,16 +1,19 @@
 const express=require('express');
-const {UserLogin,UserRegister,CreateEmployee,getAllEmployeesData,getSingleEmployeeData, insertUser,getUserById ,updateById,deleteById,searchUser} = require('../controllers/loginandregisterUser');
+const {EmployeeLogin,EmployeeRegister,CreateEmployee,getAllEmployeesData,getSingleEmployeeData,updateById, deleteEmployeeById,insertUser,getUserById ,deleteById,searchUser} = require('../controllers/loginandregisterUser');
 const router=express.Router();
 
-router.post("/login",UserLogin)
+router.post("/login",EmployeeLogin) // login employee
 
-router.post("/register",UserRegister)
+router.post("/register",EmployeeRegister)// EmployeeRegister employee
 
-router.post("/CreateNewEmployee",CreateEmployee)   
+router.post("/CreateNewEmployee",CreateEmployee)   // login employee
 
-router.get("/getAllEmployees",getAllEmployeesData)
+router.get("/getAllEmployees",getAllEmployeesData)// getAllEmployeesData employee
 
-router.get("/getSingleEmployee/:id",getSingleEmployeeData)
+router.get("/getSingleEmployee/:id",getSingleEmployeeData)// getSingleEmployeeData employee
 
+router.patch("/updateEmployee/:id",updateById) //updateById Employee
+
+router.delete("/deleteEmployee/:id",deleteEmployeeById)// deleteEmployeeById employee
 
 module.exports=router;

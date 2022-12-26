@@ -1,12 +1,9 @@
 const User = require("../modals/User");
 const Employees = require("../modals/EmployesData");
 
-
-
-
 //USER REGISTER
 
-exports.UserRegister = async (req, res) => {
+exports.EmployeeRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body
 
@@ -43,7 +40,7 @@ exports.UserRegister = async (req, res) => {
 
 
 // User login 
-exports.UserLogin = async (req, res) => {
+exports.EmployeeLogin = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -71,7 +68,7 @@ exports.UserLogin = async (req, res) => {
 exports.CreateEmployee = (req, res) => {
   console.log(req.body,"datyatataaudgsyfsdifugsdiufh")
   try {
-    const { employee_id, employee_first_name, employee_last_name } = req.body
+    const { employee_id, employee_first_name, employee_last_name,employee_Date_of_joining,employee_Date_of_birth,employee_Salary,employee_Designation,employee_Department_name } = req.body
 
     Employees.findOne({ employee_id: employee_id }, (err, employee) => {
       console.log(employee)
@@ -81,7 +78,12 @@ exports.CreateEmployee = (req, res) => {
         const employee = new Employees({
           employee_id,
           employee_first_name,
-          employee_last_name
+          employee_last_name,
+          employee_Date_of_joining,
+          employee_Date_of_birth,
+          employee_Salary,
+          employee_Designation,
+          employee_Department_name
         })
         console.log(employee ,"employee Data ")
         employee.save(err => {
@@ -126,6 +128,37 @@ exports.getSingleEmployeeData = async (req, res) => {
     const individualdata = await Employees.findById({ _id: id });
     res.json(individualdata);
     console.log(individualdata);
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+
+exports.updateById = async (req, res) => {
+  // console.log("heelo")
+  const employee = req.body; //put api se dataObj
+  // console.log(employee,"employee")
+  const editEmployee = new Employees(employee); //chck model valid obj
+  console.log(editEmployee,"eeeeeeeeeeeeeeeeee")
+  try {
+    console.log("hhhhhhhhh")
+    await Employees.updateOne({ _id: req.params.id }, editEmployee);
+
+    res.json(editEmployee);
+    console.log(editEmployee,"aaaaaaa")
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+exports.deleteEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  console.log(id,"id")
+  console.log(req.params);
+  try {
+    const deleteEmployee = await Employees.deleteOne({ _id: id });
+    res.json(deleteEmployee);
+    console.log(deleteEmployee)
   } catch (error) {
     res.status(422).json(error);
   }
