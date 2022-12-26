@@ -73,7 +73,7 @@ exports.CreateEmployee = (req, res) => {
     Employees.findOne({ employee_id: employee_id }, (err, employee) => {
       console.log(employee)
       if (employee) {
-        res.send({ message: "This Employee is already Registered", Employee_Data: req.body, })
+        res.send({ message: "This Employee is already Registered Please Add new employee", Employee_Data: req.body, })
       } else {
         const employee = new Employees({
           employee_id,
@@ -94,7 +94,7 @@ exports.CreateEmployee = (req, res) => {
           } else {
             res.send({
               Data: req.body,
-              message: "Yor Are Successfully Registered "
+              message: "New Employee is Add "
             })
           }
         })
