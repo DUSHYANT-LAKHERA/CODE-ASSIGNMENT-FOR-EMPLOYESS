@@ -5,29 +5,25 @@ import Homepage from "./components_For_L_R/homepage/homepage"
 import Register from "./components_For_L_R/register_Component/register"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from 'react';
-import EmployeesList from './components_For_L_R/employeesData/employeesList';
+import UpdateandView from './components_For_L_R/employeeData/updateandView';
 
 function App() {
 
-  const [ user, setLoginUser] = useState({})
+  const [user, setLoginUser] = useState({})
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/"> 
+          <Route exact path="/">
             {
-              user && user._id ? <Homepage setLoginUser={setLoginUser} /> : <Login setLoginUser={setLoginUser}/>
+              user && user._id ? <Homepage setLoginUser={setLoginUser} /> : <Login setLoginUser={setLoginUser} />
             }
           </Route>
-          <Route path="/login">
-            <Login setLoginUser={setLoginUser}/>
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/EmployeesList">
-            <EmployeesList />
-          </Route>
+          <Route path="/login"><Login setLoginUser={setLoginUser} /></Route>
+          <Route path="/register"><Register /></Route>
+
+          <Route path="/EmployeesData/:id" component={UpdateandView} />
+       
         </Switch>
       </Router>
     </div>
