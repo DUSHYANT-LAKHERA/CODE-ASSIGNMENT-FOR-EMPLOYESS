@@ -16,11 +16,11 @@ exports.EmployeeRegister = async (req, res) => {
           email,
           password
         })
-        console.log(user)
+        // console.log(user)
         user.save(err => {
           if (err) {
             res.send(err)
-            console.log("Error")
+            // console.log("Error")
           } else {
             res.send({
               Data: req.body,
@@ -42,7 +42,6 @@ exports.EmployeeRegister = async (req, res) => {
 // User login 
 exports.EmployeeLogin = async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     res.status(404).json("Please fill the Details");
   }
@@ -66,9 +65,9 @@ exports.EmployeeLogin = async (req, res) => {
 
 //POST ADD  NEW EMPLOYEE 
 exports.CreateEmployee = (req, res) => {
-  console.log(req.body,"datyatataaudgsyfsdifugsdiufh")
+  // console.log(req.body,"datyatataaudgsyfsdifugsdiufh")
   try {
-    const { employee_id, employee_first_name, employee_last_name,employee_Date_of_joining,employee_Date_of_birth,employee_Salary,employee_Designation,employee_Department_name } = req.body
+    const { employee_id, employee_first_name, employee_last_name, employee_Date_of_joining, employee_Date_of_birth, employee_Salary, employee_Designation, employee_Department_name } = req.body
 
     Employees.findOne({ employee_id: employee_id }, (err, employee) => {
       console.log(employee)
@@ -85,12 +84,12 @@ exports.CreateEmployee = (req, res) => {
           employee_Designation,
           employee_Department_name
         })
-        console.log(employee ,"employee Data ")
+        // console.log(employee ,"employee Data ")
         employee.save(err => {
-          console.log(res.body)
+          // console.log(res.body)
           if (err) {
             res.send(err)
-            console.log("Error")
+            // console.log("Error")
           } else {
             res.send({
               Data: req.body,
@@ -107,16 +106,16 @@ exports.CreateEmployee = (req, res) => {
 
 //GET ALL EMPLOYEES
 exports.getAllEmployeesData = async (req, res) => {
-  console.log(res.body)
+  // console.log(res.body)
   try {
     const userdata = await Employees.find();
-    console.log(userdata)
+    // console.log(userdata)
     res.status(201).json(userdata);
-    console.log("hhhhhh")
-    console.log(userdata);
+    // console.log("hhhhhh")
+    // console.log(userdata);
   } catch (error) {
     res.status(422).json(error);
-    console.log("sssssss")
+    // console.log("sssssss")
   }
 };
 
@@ -124,41 +123,103 @@ exports.getAllEmployeesData = async (req, res) => {
 exports.getSingleEmployeeData = async (req, res) => {
   const { id } = req.params;
   try {
-    console.log(req.params);
+    // console.log(req.params);
     const individualdata = await Employees.findById({ _id: id });
     res.json(individualdata);
-    console.log(individualdata);
+    // console.log(individualdata);
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+exports.SortByJoingDate = async (req, res) => {
+  const { employee_Date_of_joining } = req.params;
+  try {
+    console.log(req.params);
+    const individualdata = await Employees.find({ employee_Date_of_joining: employee_Date_of_joining });
+    res.json(individualdata);
+    // console.log(individualdata);
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+exports.SortByDepartment = async (req, res) => {
+  const { employee_Department_name } = req.params;
+  try {
+    console.log(req.params);
+    const individualdata = await Employees.find({ employee_Department_name: employee_Department_name });
+    res.json(individualdata);
+    // console.log(individualdata);
+  } catch (error) {
+    res.status(422).json(error);
+  }
+};
+
+exports.SortByDesignation = async (req, res) => {
+  const { employee_Designation } = req.params;
+  try {
+    console.log(req.params);
+    const individualdata = await Employees.find({ employee_Designation: employee_Designation });
+    res.json(individualdata);
+    // console.log(individualdata);
   } catch (error) {
     res.status(422).json(error);
   }
 };
 
 
-exports.updateById = async (req, res) => {
-  // console.log("heelo")
-  const employee = req.body; //put api se dataObj
-  // console.log(employee,"employee")
-  const editEmployee = new Employees(employee); //chck model valid obj
-  console.log(editEmployee,"eeeeeeeeeeeeeeeeee")
-  try {
-    console.log("hhhhhhhhh")
-    await Employees.updateOne({ _id: req.params.id }, editEmployee);
+// exports.SortByJoingDate = async (req, res) => {
+//   console.log(req, res, "ssssssssssssssssssssssssss")
+//   const { employee_Date_of_joining } = req.body;
+//   try {
+//     const individualdata = await Employees.find({ employee_Date_of_joining: employee_Date_of_joining })
+//     console.log(individualdata, "k")
+//     res.json(individualdata);
 
-    res.json(editEmployee);
-    console.log(editEmployee,"aaaaaaa")
+//   } catch (error) {
+//     res.status(422).json(error);
+//   }
+// };
+
+
+exports.updateById = async (req, res) => {
+  try {
+    const query = {};
+    for (i in req.body) {
+      if (req.body[i]) {
+        query[i] = req.body[i]
+      }
+    }
+    const data = await Employees.updateOne({ _id: req.params.id }, { $set: query })
+    console.log(data, "data updateeeeeee")
+
+    res.json({ message: 'Post Updated !!', data: data })
   } catch (error) {
-    res.status(422).json(error);
+    throw new Error(error)
   }
+  // var employee = req.body; //put api se dataObj
+  // var editEmployee = new Employees(employee); //chck model valid obj
+  // try {   
+  //   console.log("144 try")
+  //   var data = await Employees.updateOne( {_id:req.params.id} , {$set:editEmployee} ,{new: true});
+  //   res.json(data);
+  //   console.log(editEmployee, "aaaaaaa")
+  //   console.log(data, "data updateeeeeee")
+  // } catch (error) {
+  //   console.log("150catch")
+  //   res.status(422).json(error);
+  // }
 };
 
 exports.deleteEmployeeById = async (req, res) => {
   const { id } = req.params;
-  console.log(id,"id")
-  console.log(req.params);
+  // console.log(id,"id")
+  // console.log(req.params);
   try {
     const deleteEmployee = await Employees.deleteOne({ _id: id });
     res.json(deleteEmployee);
-    console.log(deleteEmployee)
+    // console.log(deleteEmployee)
   } catch (error) {
     res.status(422).json(error);
   }
